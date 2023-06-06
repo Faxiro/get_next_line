@@ -1,0 +1,85 @@
+[BUFFER_SIZE = 1]: 
+Invalid fd: 1.OK 2.OK 3.OK 
+files/empty: ==100333== Invalid read of size 1
+==100333==    at 0x4072F4: read_file (get_next_line.c:43)
+==100333==    by 0x40758E: get_next_line (get_next_line.c:116)
+==100333==    by 0x402CB6: gnl(int, char const*) (gnl.cpp:20)
+==100333==    by 0x404E23: main (mandatory.cpp:31)
+==100333==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==100333== 
+1.SIGSEGV
+
+files/nl: 1.OK 2.OK 
+files/41_no_nl: 1.KO 2.KO 
+files/41_with_nl: 1.OK 2.KO 3.KO 
+files/42_no_nl: 1.KO 2.KO 
+files/42_with_nl: 1.OK 2.KO 3.KO 
+files/43_no_nl: 1.KO 2.KO 
+files/43_with_nl: 1.OK 2.KO 3.KO 
+files/multiple_nlx5: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/multiple_line_no_nl: 1.OK 2.OK 3.OK 4.OK 5.KO 6.KO 
+files/multiple_line_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/alternate_line_nl_no_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.KO 10.KO 
+files/alternate_line_nl_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+files/big_line_no_nl: TIMEOUT
+files/big_line_with_nl: TIMEOUT
+stdin: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+[BUFFER_SIZE = 42]: 
+Invalid fd: 1.OK 2.OK 3.OK 
+files/empty: ==100409== Invalid read of size 1
+==100409==    at 0x407326: read_file (get_next_line.c:43)
+==100409==    by 0x4075C0: get_next_line (get_next_line.c:116)
+==100409==    by 0x402CB6: gnl(int, char const*) (gnl.cpp:20)
+==100409==    by 0x404E23: main (mandatory.cpp:31)
+==100409==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==100409== 
+1.SIGSEGV
+
+files/nl: 1.OK 2.OK 
+files/41_no_nl: 1.KO 2.KO 
+files/41_with_nl: 1.OK 2.KO 3.KO 
+files/42_no_nl: 1.KO 2.KO 
+files/42_with_nl: 1.OK 2.OK 3.OK 
+files/43_no_nl: 1.KO 2.KO 
+files/43_with_nl: 1.OK 2.KO 3.KO 
+files/multiple_nlx5: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/multiple_line_no_nl: 1.OK 2.OK 3.OK 4.OK 5.KO 6.KO 
+files/multiple_line_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/alternate_line_nl_no_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.KO 10.KO 
+files/alternate_line_nl_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+files/big_line_no_nl: 1.KO 2.KO 
+files/big_line_with_nl: 1.OK 2.OK 
+stdin: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+[BUFFER_SIZE = 10000000]: 
+Invalid fd: 1.OK 2.OK 3.OK 
+files/empty: ==100489== Invalid read of size 1
+==100489==    at 0x4072F4: read_file (get_next_line.c:43)
+==100489==    by 0x40758E: get_next_line (get_next_line.c:116)
+==100489==    by 0x402CB6: gnl(int, char const*) (gnl.cpp:20)
+==100489==    by 0x404E23: main (mandatory.cpp:31)
+==100489==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==100489== 
+1.SIGSEGV
+
+files/nl: 1.OK 2.OK 
+files/41_no_nl: 1.KO 2.KO 
+files/41_with_nl: 1.OK 2.KO 3.KO 
+files/42_no_nl: 1.KO 2.KO 
+files/42_with_nl: 1.OK 2.KO 3.KO 
+files/43_no_nl: 1.KO 2.KO 
+files/43_with_nl: 1.OK 2.KO 3.KO 
+files/multiple_nlx5: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/multiple_line_no_nl: 1.OK 2.OK 3.OK 4.OK 5.KO 6.KO 
+files/multiple_line_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 
+files/alternate_line_nl_no_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.KO 10.KO 
+files/alternate_line_nl_with_nl: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+files/big_line_no_nl: 1.KO 2.KO 
+files/big_line_with_nl: 1.OK 2.OK 
+stdin: 1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+[Static = cat: '../*bonus.c': No such file or directory
+0]
+[Bonus]
+gcc: error: ../get_next_line_bonus.c: No such file or directory
+gcc: error: ../get_next_line_utils_bonus.c: No such file or directory
+gcc: fatal error: no input files
+compilation terminated.
