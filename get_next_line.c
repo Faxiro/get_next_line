@@ -3,52 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviscogl <aviscogl@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tleroy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 16:41:38 by aviscogl          #+#    #+#             */
-/*   Updated: 2023/02/17 16:41:38 by aviscogl         ###   ########lyon.fr   */
+/*   Created: 2023/03/30 17:12:53 by tleroy            #+#    #+#             */
+/*   Updated: 2023/06/01 18:45:21 by tleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "get_next_line.h"
+#include <stdio.h>
+#include <string.h>
 
 /*
 gnl appele find_new_line
 
 find_new_line cherche un retour a la ligne
 
-si pas de retour a la ligne mais quand meme des choses dans storage, renvoyer la derniere ligne
+si pas de retour a la ligne mais quand meme des choses dans storage, renvoyer 
+la derniere ligne
 
-si rien dans storage, appeler la fonction read_file
+si rien dans storage, appeler la fonction read_file + find new_line si il a
+lu quelque chose
 
-si il y a un retour a la ligne renvoyer la phrase + cut la phrase renvoyé et fermer le programme
+si il y a un retour a la ligne renvoyer la phrase + cut la phrase renvoyé et 
+fermer le programme
 */
 
-char	*get_next_line(int fd)
+char	*read_file(int fd, char *storage)
 {
-	static char	*storage = 0;
-	int			cut;
-	char *		line;
+	char	*buf;
+	int		readed;
+	int		nl;
 
-	if (fd == -1 || BUFFER_SIZE <= 0)
-		return (NULL);
-	cut = find_new_line(storage);
-	if (cut == 0)
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (buf == NULL)
 	{
-		cut = read_file(fd, storage);
-		if (cut > 0)
-		{	
-			cut = find_new_line(storage);
-			if (cut > 0)
-				return(cut_line(cut, storage));
-		}
-		else
-			free(storage);
-			return (0);
+		return (NULL);
 	}
-	else 
-		return (cut_line(cut, storage));
-	return (0);
+	readed = read(fd, buf, BUFFER_SIZE);
+	while (readed >= 0)
+	{
+		if (readed == -1 || (readed == 0 && storage[0] == '\0'))
+		{
+			free(buf);
+			free(storage);
+			return (NULL);
+		}
+		buf[readed] = '\0';
+		storage = add_to_buffer(buf, storage);
+		nl = find_new_line(storage);
+		if (nl >= 0)
+		{
+			return (free(buf), storage);
+		}
+		readed = read(fd, buf, BUFFER_SIZE);
+	}
+	return (free(buf), storage);
 }
 
 int	find_new_line(char *storage)
@@ -56,66 +65,61 @@ int	find_new_line(char *storage)
 	int	i;
 
 	i = 0;
-	while (storage[i] && storage [i] != '\n')
+	if (storage[0] == '\0')
+		return (0);
+	while (storage[i])
 	{
 		if (storage[i] == '\n')
-			return(i);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-char	*read_file(int fd, char *storage)
+char	*add_to_buffer(char *buf, char *storage)
 {
-	char	*buf;
-	char	*tempo;
-	int		readed;
+	char	*added;
 
-	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (buf == NULL)
-		return (NULL);
-	readed = read(fd, buf, BUFFER_SIZE);
-	if (readed == 0 && storage[0] == NULL)
-		end_file(storage, buf);
-	tempo = ft_strjoin(storage, buf);
+	added = ft_strjoin(storage, buf);
 	free(storage);
-	free(buf);
-	storage = ft_strdup(tempo);
-	free(tempo);
-	return (readed);
+	return (added);
 }
 
-int	end_file(char *storage, char *buf)
-{
-	free(storage);
-	free(buf);
-	return (0);
-}
-
-char	*cut_line(int cut, char *storage)
+char	*cut_line(int cut, char **storage_pt, int i)
 {
 	char	*line;
 	char	*tempo;
-	int		i;
-
-	line = malloc(sizeof(char) * cut + 1);
+	
+	if (*storage_pt == NULL)
+		return (NULL);
+	line = malloc(sizeof(char) * cut + 2);
 	if (line == NULL)
 		return (NULL);
-	i = 0;
-	while (storage[i] && i <= cut)
-		line[i] = storage [i++];
-	line[i + 1] = '\0';
-	tempo = malloc(sizeof(char) * ft_strlen(storage) - cut + 1);
+	while ((*storage_pt)[i] && i <= cut)
+	{
+		line[i] = (*storage_pt)[i];
+		i++;
+	}
+	line[i] = '\0';
+	tempo = ft_substr(*storage_pt, cut + 1, ft_strlen(*storage_pt) - cut);
 	if (tempo == NULL)
 		return (NULL);
-	while (storage[i])
-		tempo[i - cut] = storage[i++];
-	tempo[i - cut + 1] = '\0';
-	free(storage);
-	storage = ft_strdup(tempo);
+	free(*storage_pt);
+	*storage_pt = ft_strdup(tempo);
 	free(tempo);
 	return (line);
 }
-				to_write[i] = buffer[i--];
-	}
+
+char	*get_next_line(int fd)
+{
+	static char	*storage = 0;
+	int			cut;
+
+	if (fd == -1 || BUFFER_SIZE <= 0)
+		return (NULL);
+	storage = read_file(fd, storage);
+	if (storage == NULL)
+		return (NULL);
+	cut = find_new_line(storage);
+	return (cut_line(cut, &storage, 0));
 }
