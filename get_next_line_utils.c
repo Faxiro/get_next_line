@@ -102,12 +102,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	new[i] = '\0';
 	return (new);
 }
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = -1;
-	while (++i < n)
-		((char *)s)[i] = '\0';
-}
