@@ -108,3 +108,4 @@ char	*get_next_line(int fd)
 	storage = cut_line(storage);
 	return (line);
 }
+					 
