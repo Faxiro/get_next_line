@@ -18,13 +18,12 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
 
 char	*get_next_line(int fd);
-int		find_new_line(char *storage);
 char	*read_file(int fd, char *storage);
-char	*cut_line(int cut, char **storage_pt, int i);
 char	*add_to_buffer(char *buf, char *storage);
+char  *get_line(char *storage);
+char	*cut_line(char *storage);
 
 /******************/
 /*     utils      */
@@ -33,6 +32,7 @@ char	*add_to_buffer(char *buf, char *storage);
 int		ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	*ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
 
 #endif
