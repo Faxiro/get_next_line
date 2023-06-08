@@ -22,8 +22,8 @@
 char	*get_next_line(int fd);
 char	*read_file(int fd, char *storage);
 char	*add_to_buffer(char *buf, char *storage);
-char  *get_line(char *storage);
-char  *cut_line(char *storage);
+char	*get_line(char *storage);
+char	*cut_line(char *storage);
 
 /******************/
 /*     utils      */
