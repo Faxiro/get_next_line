@@ -10,23 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
-
-/*
-gnl appele find_new_line
-
-find_new_line cherche un retour a la ligne
-
-si pas de retour a la ligne mais quand meme des choses dans storage, renvoyer 
-la derniere ligne
-
-si rien dans storage, appeler la fonction read_file + find new_line si il a
-lu quelque chose
-
-si il y a un retour a la ligne renvoyer la phrase + cut la phrase renvoyé et 
-fermer le programme
-*/
 
 char	*add_to_buffer(char *buf, char *storage)
 {
